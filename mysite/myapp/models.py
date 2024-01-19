@@ -14,8 +14,7 @@ class Food(models.Model):
     
 
 class Consume(models.Model):
-    user = models.ForeignKey(User, on_delete =models.CASCADE) # User = built in model in django (e.g. superuser via create-admin)
-    food_consumed = models.ForeignKey(Food, on_delete=models.CASCADE) # foreign key, primary key of the Food item, on_delete ensures if the food primary key is deleted the foreign key is also deleted
-    # note: if wanting to save a list of Food objects to one food_consumed, food_consumed = models.ManyToManyField(Food)  
+    user = models.ForeignKey(User, on_delete =models.CASCADE)
+    food_consumed = models.ForeignKey(Food, on_delete=models.CASCADE)
 
     

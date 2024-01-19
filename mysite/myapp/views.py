@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.sessions.models import Session
 from .models import Food, Consume
 from django.contrib import messages
 
-# Create your views here.
 def index(request):
     if request.method == "POST":
-        food_consumed = request.POST.get("food_consumed") # the food selected in the html template
+        food_consumed = request.POST.get("food_consumed")
 
         # Check if the form has been submitted with a non-empty food_consumed value
         if food_consumed:
@@ -18,11 +16,9 @@ def index(request):
                 consume = Consume(user=user, food_consumed=food)
                 consume.save()
 
-                # Store the selected food in the session
                 request.session['selected_food'] = food.name
                 request.session.save()
 
-                # Show a success message for adding the item
                 messages.success(request, f"Item '{food.name}' added successfully!")
 
     foods = Food.objects.all()
@@ -44,6 +40,6 @@ def delete_consume(request, id):
         consumed_food.delete()
 
         messages.success(request, f"Item '{food_name}' removed successfully!")
-        return redirect('/') # redirecting to homepage
+        return redirect('/') 
     
     return redirect('/') 

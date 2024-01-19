@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <!-- browser messages to get when adding or removing an item -->
+        <!-- browser messages when adding or removing an item -->
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -95,7 +95,6 @@
                         <th>Calories</th>
                         <th>Remove Item</th>
                     </tr>
-                    <!-- want to loop through consumed_foods, creating a table row for each with td's of the input's -->
                     {% for c in consumed_food %}
                     <tr>
                         <td>{{ c.food_consumed.name }}</td>
@@ -145,10 +144,9 @@
 
 </body>
 
-<!-- JS to round up values and assign them to table cells with ids in last row -->
+<!-- JS -->
 <script>
 
-    // table input code
     let table = document.getElementById("table")
 
     let { carbs, protein, fats, calories } = { carbs: 0, protein: 0, fats: 0, calories: 0 };
@@ -182,31 +180,29 @@
     document.getElementById("calories").innerHTML = calories
 
     let calPer = calories / 2000 * 100 // calorie consumption as a %
-    document.getElementById("caloriesPercentage").innerHTML = calPer + "%"
+    document.getElementById("caloriesPercentage").innerHTML = calPer.toFixed(2) + "%";
 
     document.getElementsByClassName('progress-bar')[0].setAttribute("style", "width:" + calPer + "%") // setting the progress bar's attribute as the %, goes from 0-100% progress
 
 
-    // chartJS JavaScript
-    const ctx = document.getElementById('myChart'); // accessing the canvas with ‘myChart’ id
+    // chartJS
+    const ctx = document.getElementById('myChart');
 
     // carb, protein, fat percentages
     let total = carbs + protein + fats;
-    console.log(total)
 
-    let carbsPer = carbs / total * 100; // i.e. carbs % of total
+    let carbsPer = carbs / total * 100;
     let proteinPer = Math.round(protein / total * 100);
     let fatsPer = Math.round(fats / total * 100);
 
 
-    // creating new Chart, pass in context, then attributes
     new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: [`Carbs ${Math.floor(carbsPer)}%`, `Protein ${Math.floor(proteinPer)}%`, `Fat ${Math.floor(fatsPer)}%`],
             datasets: [{
-                label: '% of Consumption', // on hover will see this label
-                data: [carbsPer, proteinPer, fatsPer], // setting the data and linking it to the labels
+                label: '% of Consumption',
+                data: [carbsPer, proteinPer, fatsPer],
                 borderWidth: 1
             }]
         }
